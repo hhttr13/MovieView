@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.movieview.movieboard.repository.IMovieDAO">
+
+<resultMap id="MovieBoardMap" type="com.spring.movieview.movieboard.model.MovieVO">
+		<id property="movieNo" column="movie_no" />
+		<result property="title" column="title" />
+		<result property="genre" column="genre" />
+		<result property="nation" column="nation" />
+		<result property="openDate" column="open_date" />
+		<result property="director" column="director" />
+		<result property="actor" column="actor"/>
+		<result property="synoposis" column="synoposis"/>
+		<result property="score" column="score"/>
+	</resultMap>
+	
+<select id="getAllList" resultMap="MovieBoardMap">
+	SELECT * FROM movie_board
+	ORDER BY movie_no DESC
+</select>
+
+<select id="getOneList" resultMap="MovieBoardMap">
+	SELECT * FROM movie_board
+	WHERE movie_no = #{movieNo}
+</select>
+
+<insert id="insertMovie">
+	INSERT INTO movie_board (title, genre, nation, open_date, director, actor, synoposis)
+	VALUES(#{title}, #{genre}, #{nation}, #{openDate}, #{director}, #{actor}, #{synoposis})
+</insert>
+
+<delete id="deleteMovie">
+	DELETE FROM movie_board
+	WHERE movie_no = #{movieNo}
+</delete>
+
+<update id="updateMovie">
+	UPDATE movie_board SET title=#{title}, genre=#{genre}, nation=#{nation}, open_date=#{openDate},
+	 director=#{director}, actor=#{actor}, synoposis=#{synoposis}
+	WHERE movie_no = #{movieNo}
+</update>
+
+<select id="getListPaging" resultMap="MovieBoardMap">
+	SELECT * FROM movie_board
+	ORDER BY movie_no DESC
+	LIMIT #{pageStart}, #{countPerPage}
+</select>
+
+<select id="countAll" resultType="int">
+	SELECT COUNT(*) FROM movie_board
+</select>
+
+
+</mapper>
