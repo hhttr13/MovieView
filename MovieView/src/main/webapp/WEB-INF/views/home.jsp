@@ -25,7 +25,7 @@ body{
     </div>
   </header>
   
-  <!-- Contact Section -->
+  <!-- Contact Sections -->
   <section class="contact-section bg-black">
     <div class="container">
       <div class="row">
