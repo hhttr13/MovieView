@@ -44,12 +44,34 @@
 
 <select id="getListPaging" resultMap="MovieBoardMap">
 	SELECT * FROM movie_board
+	<if test="searchGenre != 'basic'">
+		WHERE genre = #{searchGenre}
+		<if test="condition == 'title'">
+			AND title LIKE CONCAT('%', #{keyword}, '%')
+		</if>
+	</if>
+	<if test="searchGenre == 'basic' ">
+		<if test="condition == 'title'">
+			WHERE title LIKE CONCAT('%', #{keyword}, '%')
+		</if>
+	</if>
 	ORDER BY movie_no DESC
 	LIMIT #{pageStart}, #{countPerPage}
 </select>
 
 <select id="countAll" resultType="int">
 	SELECT COUNT(*) FROM movie_board
+	<if test="searchGenre != 'basic'">
+		WHERE genre = #{searchGenre}
+		<if test="condition == 'title'">
+			AND title LIKE CONCAT('%', #{keyword}, '%')
+		</if>
+	</if>
+	<if test="searchGenre == 'basic' ">
+		<if test="condition == 'title'">
+			WHERE title LIKE CONCAT('%', #{keyword}, '%')
+		</if>
+	</if>
 </select>
 
 

@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<jsp:include page="../include/bootstrap.jsp" />
 <title>Insert title here</title>
 </head>
 <body>
@@ -15,7 +16,13 @@
 </tr>
 <tr>
 	<th>장르</th>
-	<td><input type="text" name="genre"></td>
+	<td>
+	<select id="condition" class="form-control" name="genre">
+		<option value="1" >액션</option>
+		<option value="2" >판타지</option>
+		<option value="3" >SF</option>
+		<option value="4" >로맨스</option>
+    </select></td>
 </tr>
 <tr>
 	<th>국가</th>

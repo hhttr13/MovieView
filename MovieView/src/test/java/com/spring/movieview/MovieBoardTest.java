@@ -24,11 +24,11 @@ public class MovieBoardTest {
 	
 @Test
 	public void insertTest() throws Exception {
-	for(int i=367; i<412; i++) {
+	for(int i=263; i<412; i++) {
 		MovieVO vo = new MovieVO();
 		int result = i+1;
 		vo.setTitle((i+1)+"번째 영화");
-		vo.setGenre("장르");
+		vo.setGenre("3");
 		vo.setNation("국가"+(i+1));
 		vo.setOpenDate("2000.03.12");
 		vo.setDirector("감독 "+result);

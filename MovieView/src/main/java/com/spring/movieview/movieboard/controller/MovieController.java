@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.spring.movieview.commons.Criteria;
 import com.spring.movieview.commons.PageCriteria;
+import com.spring.movieview.commons.SearchCriteria;
 import com.spring.movieview.movieboard.model.MovieVO;
 import com.spring.movieview.movieboard.service.MovieService;
 
@@ -25,14 +25,23 @@ public class MovieController {
 		model.addAttribute("movielist", service.getAllList());
 		return "/movieboard/list";
 	}*/
-	//목록조회(paging 처리)
+	//목록조회(paging 처리, 검색처리)
 	@RequestMapping(value="list", method=RequestMethod.GET)
-	public String movieList(Model model, Criteria cri) throws Exception{
+	public String movieList(Model model, SearchCriteria cri, String searchGenre, MovieVO movie) throws Exception{
 		PageCriteria pc = new PageCriteria();
 		pc.setCriteria(cri);
-		pc.setArticleTotalCount(service.countAll());
+		System.out.println("테스트: "+service.countAll(cri));
+		System.out.println("컨디션테스트: "+ cri.getCondition());
+		System.out.println("키워드 테스트: "+cri.getKeyword());
+		System.out.println("서치장르 생성자테스트: "+cri.getSearchGenre());
+		pc.setArticleTotalCount(service.countAll(cri));
+		if(searchGenre != null) {
+		cri.setSearchGenre(searchGenre);
+		}
+		System.out.println("서치장르: "+cri.getSearchGenre());
 		model.addAttribute("movielist", service.getListPaging(cri));
 		model.addAttribute("pageCri", pc);
+		model.addAttribute("cri", cri);
 		return "/movieboard/list";
 	}
 	

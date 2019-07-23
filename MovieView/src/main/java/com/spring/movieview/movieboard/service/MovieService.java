@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.spring.movieview.commons.Criteria;
+import com.spring.movieview.commons.SearchCriteria;
 import com.spring.movieview.movieboard.model.MovieVO;
 import com.spring.movieview.movieboard.repository.IMovieDAO;
 
@@ -42,13 +42,26 @@ public class MovieService implements IMovieService{
 	}
 
 	@Override
-	public List<MovieVO> getListPaging(Criteria cri) throws Exception {
-		return dao.getListPaging(cri);
+	public List<MovieVO> getListPaging(SearchCriteria cri) throws Exception {
+		List<MovieVO> list = dao.getListPaging(cri);
+		for (MovieVO movie : list) {
+			if(movie.getGenre().equals("1")) {
+				movie.setGenre("액션");
+			}else if(movie.getGenre().equals("2")) {
+				movie.setGenre("판타지");
+			}else if(movie.getGenre().equals("3")) {
+				movie.setGenre("SF");
+			}else if(movie.getGenre().equals("4")) {
+				movie.setGenre("로맨스");
+			}
+		}
+		
+		return list;
 	}
 
 	@Override
-	public int countAll() throws Exception {
-		return dao.countAll();
+	public int countAll(SearchCriteria cri) throws Exception {
+		return dao.countAll(cri);
 	}
 
 
