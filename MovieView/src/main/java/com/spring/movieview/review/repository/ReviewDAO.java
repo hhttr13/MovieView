@@ -1,13 +1,15 @@
 package com.spring.movieview.review.repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.spring.movieview.review.common.paging.Criteria;
-import com.spring.movieview.review.common.paging.SearchCriteria;
+import com.spring.movieview.commons.Criteria;
+import com.spring.movieview.commons.SearchCriteria;
 import com.spring.movieview.review.model.ReviewVO;
 
 
@@ -21,7 +23,6 @@ public class ReviewDAO implements IReviewDAO {
 	
 	@Override
 	public ReviewVO content(int reviewNo) throws Exception {
-		System.out.println("리뷰 번호 : " + reviewNo);
 		return sqlSession.selectOne(NAMESPACE+".content", reviewNo);
 	}
 
@@ -45,8 +46,8 @@ public class ReviewDAO implements IReviewDAO {
 	}
 
 	@Override
-	public List<ReviewVO> list() throws Exception {
-		return sqlSession.selectList(NAMESPACE+".list");
+	public List<ReviewVO> list(int movieNo) throws Exception {
+		return sqlSession.selectList(NAMESPACE+".list", movieNo);
 	}
 
 	@Override
@@ -60,8 +61,11 @@ public class ReviewDAO implements IReviewDAO {
 	}
 
 	@Override
-	public List<ReviewVO> listSearch(SearchCriteria cri) throws Exception {
-		return sqlSession.selectList(NAMESPACE+".listSearch", cri);
+	public List<ReviewVO> listSearch(SearchCriteria cri, int movieNo) throws Exception {
+		Map<String, Object> datas = new HashMap<>();
+		datas.put("movieNo", movieNo);
+		datas.put("criteria", cri);
+		return sqlSession.selectList(NAMESPACE+".listSearch", datas);
 	}
 
 	@Override

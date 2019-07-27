@@ -1,5 +1,8 @@
 package com.spring.movieview.commons;
 
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
+
 import com.spring.movieview.commons.Criteria;
 
 public class PageCriteria {
@@ -12,6 +15,26 @@ public class PageCriteria {
 	
 	//한 화면에 한번에 보여줄 페이지 수
 	private final int displayPageNum = 10;
+	
+	//URI와 요청파라미터를 쉽게 작성하기 위한 기능
+		public String makePageURI(int page) {
+			UriComponents ucp = UriComponentsBuilder.newInstance()
+								.queryParam("page", page)
+								.queryParam("countPerPage", criteria.getCountPerPage())
+								.build();
+			return ucp.toUriString();
+		}
+		
+		
+		public String makeSearchURI(int page) {
+			UriComponents ucp = UriComponentsBuilder.newInstance()
+					.queryParam("page", page)
+					.queryParam("countPerPage", criteria.getCountPerPage())
+					.queryParam("condition", ((SearchCriteria)criteria).getCondition())
+					.queryParam("keyword", ((SearchCriteria)criteria).getKeyword())
+					.build();
+			return ucp.toUriString();
+		}
 
 	
 	public void calcData() {

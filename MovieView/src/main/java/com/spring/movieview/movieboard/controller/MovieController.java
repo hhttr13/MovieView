@@ -10,14 +10,19 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.spring.movieview.commons.PageCriteria;
 import com.spring.movieview.commons.SearchCriteria;
 import com.spring.movieview.movieboard.model.MovieVO;
+import com.spring.movieview.movieboard.service.IMovieService;
 import com.spring.movieview.movieboard.service.MovieService;
+import com.spring.movieview.review.service.IReviewService;
 
 @Controller
 @RequestMapping(value="/movieboard")
 public class MovieController {
 	
 	@Autowired
-	private MovieService service;
+	private IMovieService service;
+	
+	@Autowired
+	private IReviewService r_service;
 
 	//목록조회
 	/*@RequestMapping(value="/list", method=RequestMethod.GET)
@@ -48,8 +53,13 @@ public class MovieController {
 	
 	//한가지 게시물 조회
 	@RequestMapping(value="/content", method=RequestMethod.GET)
-	public String oneList(Model model, int movieNo) throws Exception {
+	public String oneList(Model model, int movieNo, SearchCriteria cri) throws Exception {
 		model.addAttribute("movie", service.getOneList(movieNo));
+		PageCriteria pc = new PageCriteria();
+		pc.setCriteria(cri);
+		pc.setArticleTotalCount(r_service.countArticles());
+		model.addAttribute("reviews", r_service.listSearch(cri, movieNo));
+		model.addAttribute("pageCreator", pc);
 		return "/movieboard/content";
 	}
 	

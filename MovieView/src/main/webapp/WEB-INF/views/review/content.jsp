@@ -50,13 +50,13 @@
 </table>
 
 <div>
-	<a href="<c:url value='/review/modify?reviewNo=${review.reviewNo}'/>">
+	<a href="<c:url value='/review/modify?reviewNo=${review.reviewNo}&movieNo=${review.movieNo }'/>">
 	수정
 	</a>
-	<a href="<c:url value='/review/delete?reviewNo=${review.reviewNo}'/>">
+	<a href="<c:url value='/review/delete?reviewNo=${review.reviewNo}&movieNo=${review.movieNo }'/>">
 	삭제
 	</a>
-	<a href="<c:url value='/review/list'/>">
+	<a href="<c:url value='/movieboard/content?movieNo=${review.movieNo }'/>">
 	목록
 	</a>
 </div>

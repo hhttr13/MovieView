@@ -13,6 +13,7 @@
 </head>
 <body>
 <form id="modifyForm" method="post" action="<c:url value='/review/modify' />">
+<input type="hidden" name="movieNo" value="${review.movieNo }">
 <div>
 	리뷰 번호 : ${review.reviewNo }
 	

@@ -7,6 +7,7 @@
 	<!-- UserResultMap 설정 -->
 	<resultMap id="ReviewResultMap" type="com.spring.movieview.review.model.ReviewVO">
        	<id property="reviewNo" column= "review_no"/>
+       	<result property = "movieNo" column="movie_no"/>
        	<result property = "reviewTitle" column = "review_title"/>
        	<result property = "reviewWriter" column = "review_writer" />
        	<result property = "reviewContent" column = "review_content" />
@@ -17,8 +18,8 @@
 	<!-- 리뷰 등록 SQL -->
 	<insert id="insert">
 		INSERT INTO movieview_review 
-		(review_title, review_writer, review_content) 
-		VALUES (#{reviewTitle}, #{reviewWriter}, #{reviewContent});
+		(review_title, review_writer, review_content, movie_no) 
+		VALUES (#{reviewTitle}, #{reviewWriter}, #{reviewContent}, #{movieNo});
 	</insert>
 	
 	<!-- 목록보기 -->
@@ -51,6 +52,7 @@
 	<select id = "listPaging" resultMap = "ReviewResultMap">
 		SELECT * 
 		FROM movieview_review 
+		WHERE movie_no = #{movieNo}
 		ORDER BY review_no DESC
 		LIMIT #{pageStart}, #{countPerPage}
 	
@@ -81,7 +83,7 @@
 		FROM movieview_review 
 		<include refid="search" />
 		ORDER BY review_no DESC
-		LIMIT #{pageStart}, #{countPerPage}
+		LIMIT #{criteria.pageStart}, #{criteria.countPerPage}
 	</select>
 	
 	<!-- 중복되는 동적 sql문 처리 -->
@@ -89,17 +91,18 @@
 		<if test="condition != ''">
 			<!--  동적 sql구문 -->
 			<if test="condition == 'title'">
-			WHERE review_title LIKE CONCAT('%', #{keyword}, '%')
+			WHERE review_title LIKE CONCAT('%', #{keyword}, '%') AND movie_no =#{movieNo}
 			</if>
 			<if test="condition == 'writer'">
-			WHERE review_writer LIKE CONCAT('%', #{keyword}, '%') 
+			WHERE review_writer LIKE CONCAT('%', #{keyword}, '%') AND movie_no =#{movieNo} 
 			</if>
 			<if test="condition == 'content'">
-			WHERE review_content LIKE CONCAT('%', #{keyword}, '%')
+			WHERE review_content LIKE CONCAT('%', #{keyword}, '%') AND movie_no =#{movieNo}
 			</if>
-			
 		</if>
-	
+		<if test="condition == '' || condition == null">
+			WHERE movie_no = #{movieNo}
+		</if>
 	</sql>
 	
 	<!--  조회수 처리 -->

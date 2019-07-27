@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.spring.movieview.review.common.paging.Criteria;
-import com.spring.movieview.review.common.paging.SearchCriteria;
+import com.spring.movieview.commons.Criteria;
+import com.spring.movieview.commons.SearchCriteria;
 import com.spring.movieview.review.model.ReviewVO;
 import com.spring.movieview.review.repository.IReviewDAO;
 
@@ -27,7 +27,7 @@ public class ReviewService implements IReviewService{
 
 	@Override
 	public List<ReviewVO> list() throws Exception {
-		return reviewDao.list();
+		return reviewDao.list(0);
 	}
 
 
@@ -69,8 +69,8 @@ public class ReviewService implements IReviewService{
 
 
 	@Override
-	public List<ReviewVO> listSearch(SearchCriteria cri) throws Exception {
-		List<ReviewVO> list = reviewDao.listSearch(cri);
+	public List<ReviewVO> listSearch(SearchCriteria cri, int movieNo) throws Exception {
+		List<ReviewVO> list = reviewDao.listSearch(cri, movieNo);
 		return list;
 	}
 

@@ -2,8 +2,8 @@ package com.spring.movieview.review.repository;
 
 import java.util.List;
 
-import com.spring.movieview.review.common.paging.Criteria;
-import com.spring.movieview.review.common.paging.SearchCriteria;
+import com.spring.movieview.commons.Criteria;
+import com.spring.movieview.commons.SearchCriteria;
 import com.spring.movieview.review.model.ReviewVO;
 
 
@@ -24,7 +24,7 @@ public interface IReviewDAO {
 	 void delete(int reviewNo) throws Exception;
 	 
 	 //목록보기
-	 List<ReviewVO> list() throws Exception; 
+	 List<ReviewVO> list(int movieNo) throws Exception; 
 	
 	 
 	 //게시글 페이지별로 불러오기
@@ -34,7 +34,7 @@ public interface IReviewDAO {
 	 
 	 
 	//검색 동적 SQL처리
-	List<ReviewVO> listSearch(SearchCriteria cri) throws Exception;
+	List<ReviewVO> listSearch(SearchCriteria cri, int movieNo) throws Exception;
 	//검색후 총 리뷰 수 
 	int countSearchArticles(SearchCriteria cri) throws Exception;
 			 

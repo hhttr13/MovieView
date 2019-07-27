@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.spring.movieview.review.common.paging.PageCreator;
-import com.spring.movieview.review.common.paging.SearchCriteria;
+import com.spring.movieview.commons.PageCriteria;
+import com.spring.movieview.commons.SearchCriteria;
 import com.spring.movieview.review.model.ReviewVO;
 import com.spring.movieview.review.service.IReviewService;
 
@@ -54,13 +54,13 @@ public class ReviewController {
 */	
 	
 	@RequestMapping(value="/list", method=RequestMethod.GET)
-	public String list(SearchCriteria cri, Model model) throws Exception {
+	public String list(SearchCriteria cri, Model model, int movieNo) throws Exception {
 		logger.info("GET요청발생, list 목록 불러오기"); 
-		PageCreator pc = new PageCreator();
+		PageCriteria pc = new PageCriteria();
 		pc.setCriteria(cri);
 		pc.setArticleTotalCount(service.countArticles());
 		
-		model.addAttribute("reviews", service.listSearch(cri));
+		model.addAttribute("reviews", service.listSearch(cri, movieNo));
 		model.addAttribute("pageCreator", pc);
 		
 		logger.info("cri : " + cri.toString()); 
@@ -72,21 +72,24 @@ public class ReviewController {
 	
 		//게시글 작성화면 열람 요청
 		@RequestMapping(value="/write", method=RequestMethod.GET)
-		public String write() {
+		public String write(int movieNo, Model model) throws Exception{
 			logger.info("method:get > board/write");
+			System.out.println("테스트무번: "+movieNo);
+			model.addAttribute("movie", movieNo);
 			return "/review/write";
 		}
 		
 		//게시글 등록 요청
 		@RequestMapping(value="/write", method=RequestMethod.POST)
-		public String write(ReviewVO review, RedirectAttributes redirectAttr) throws Exception{
-			
+		public String write(ReviewVO review, RedirectAttributes redirectAttr, int movieNo) throws Exception{
 			logger.info("method: post > review/write");
+			System.out.println("무번텟1: "+ movieNo);
 			logger.info(review.toString());
 			service.insert(review);
+			logger.info(review.toString());
 			redirectAttr.addFlashAttribute("message", "regSuccess");
-			
-			return "redirect:/review/list";
+			System.out.println("무번텟2!: "+ review.getMovieNo());
+			return "redirect:/movieboard/content?movieNo="+movieNo;
 		}
 		
 		//게시물 조회페이지 요청
@@ -108,9 +111,9 @@ public class ReviewController {
 			
 			return "/review/modify";
 		}
-		
+		//수정폼
 		@RequestMapping(value="/modify", method=RequestMethod.POST)
-		public String modify(ReviewVO review, RedirectAttributes redirectAttr) throws Exception {
+		public String modify(ReviewVO review, RedirectAttributes redirectAttr,int movieNo) throws Exception {
 
 			logger.info("method: post > /review/modify");
 			service.modify(review);
@@ -120,19 +123,19 @@ public class ReviewController {
 			
 			redirectAttr.addFlashAttribute("message", "modSuccess");
 			
-			return "redirect:/review/list";
+			return "redirect:/movieboard/content?movieNo="+movieNo;
 		}
 		
 		@RequestMapping(value="/delete", method = RequestMethod.GET)
 		public String delete(@RequestParam("reviewNo") int reviewNo,
-				RedirectAttributes redirectAttributes) throws Exception {
+				RedirectAttributes redirectAttributes, int movieNo) throws Exception {
 
 			logger.info("method: post > /review/delete");
 			service.delete(reviewNo);
 			
 			redirectAttributes.addFlashAttribute("message", "delSuccess");
 
-			return "redirect:/review/list";
+			return "redirect:/movieboard/content?movieNo="+movieNo;
 		}
 
 		

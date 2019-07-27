@@ -8,6 +8,7 @@ import lombok.Data;
 public class ReviewVO {
 
 	private int reviewNo;
+	private int movieNo;
 	private String reviewTitle;
 	private String reviewWriter;
 	private String reviewContent;
@@ -16,6 +17,13 @@ public class ReviewVO {
 	private int viewCnt;
 	private int replyCnt;
 	
+	
+	public int getMovieNo() {
+		return movieNo;
+	}
+	public void setMovieNo(int movieNo) {
+		this.movieNo = movieNo;
+	}
 	public int getViewCnt() {
 		return viewCnt;
 	}
@@ -62,8 +70,9 @@ public class ReviewVO {
 	}
 	@Override
 	public String toString() {
-		return "ReviewVO [reviewNo=" + reviewNo + ", reviewTitle=" + reviewTitle + ", reviewWriter=" + reviewWriter
-				+ ", reviewContent=" + reviewContent + ", regDate=" + regDate + "]";
+		return "ReviewVO [reviewNo=" + reviewNo + ", movieNo=" + movieNo + ", reviewTitle=" + reviewTitle
+				+ ", reviewWriter=" + reviewWriter + ", reviewContent=" + reviewContent + ", regDate=" + regDate
+				+ ", viewCnt=" + viewCnt + ", replyCnt=" + replyCnt + ", newMark=" + newMark + "]";
 	}
 	
 	

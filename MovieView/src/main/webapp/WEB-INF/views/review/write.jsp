@@ -12,9 +12,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+<h3>무비번호 테스트1: ${movie}</h3>
 <form id="writeForm" method="post" action="<c:url value='/review/write' />">
-
+<input type="hidden" name="movieNo" value="${movie}">
 <table border = "1">
 <th colspan = "2">작성게시판</th> 
 <tr>
@@ -42,7 +42,7 @@
 </div>
 
 </form>
-
+<a href="/movie/movieboard/content?movieNo=${movie }">뒤로!!!</a>
 <jsp:include page="include/plugin-js.jsp"/>
 
 </body>
@@ -51,7 +51,7 @@
 $(document).ready(function(){
 		//글쓰기 버튼 클릭 이벤트
 		$("#backBtn").on("click", function(){
-			self.location = "/movie/review/list";
+			self.location = "/movie/movieboard/content?=${movie}";
 		});
 });
 </script>
